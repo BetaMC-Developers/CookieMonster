@@ -68,6 +68,7 @@ public class Methods {
         //this.addMethod("iConomy", new com.nijikokun.register_21.payment.methods.iCo4());
         //this.addMethod("BOSEconomy", new com.nijikokun.register_21.payment.methods.BOSE6());
         //this.addMethod("BOSEconomy", new com.nijikokun.register_21.payment.methods.BOSE7());
+        this.addMethod("ZCore", new com.nijikokun.register_21.payment.methods.ZCoreEco());
         this.addMethod("Essentials", new com.nijikokun.register_21.payment.methods.EE17());
         //this.addMethod("MultiCurrency", new com.nijikokun.register_21.payment.methods.MCUR());
     }
