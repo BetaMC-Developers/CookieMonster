@@ -1,9 +1,0 @@
-name: CookieMonster
-main: com.pi.coelho.CookieMonster.CookieMonster
-version: 1.6.3
-authors: [jascotty2, Coelho]
-commands:
-  cookiemonster:
-    description: Admin Commands
-    usage: /<command> [reload|region define/list/remove]
-    aliases: [cm]
