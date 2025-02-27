@@ -1,11 +1,10 @@
 package com.nijikokun.register_21.payment.methods;
 
 import com.nijikokun.register_21.payment.Method;
+import me.zavdav.zcore.ZCore;
+import me.zavdav.zcore.api.Economy;
+import me.zavdav.zcore.util.PlayerUtils;
 import org.bukkit.plugin.Plugin;
-import org.poseidonplugins.zcore.ZCore;
-import org.poseidonplugins.zcore.api.Economy;
-import org.poseidonplugins.zcore.util.Utils;
-
 import java.util.UUID;
 
 public class ZCoreEco implements Method {
@@ -21,11 +20,11 @@ public class ZCoreEco implements Method {
     }
 
     public String getVersion() {
-        return "1.0-SNAPSHOT";
+        return zcore.getDescription().getVersion();
     }
 
     public String format(double amount) {
-        return Economy.INSTANCE.formatBalance(amount);
+        return Economy.formatBalance(amount);
     }
 
     public boolean hasBanks() {
@@ -38,8 +37,8 @@ public class ZCoreEco implements Method {
 
     public boolean hasAccount(String name) {
         try {
-            UUID uuid = Utils.getUUIDFromUsername(name);
-            return Economy.INSTANCE.userExists(uuid);
+            UUID uuid = PlayerUtils.getUUIDFromUsername(name);
+            return Economy.userExists(uuid);
         } catch (Throwable e) {
             return false;
         }
@@ -51,7 +50,7 @@ public class ZCoreEco implements Method {
 
     public MethodAccount getAccount(String name) {
         if (!hasAccount(name)) return null;
-        return new ZEcoAccount(Utils.getUUIDFromUsername(name));
+        return new ZEcoAccount(PlayerUtils.getUUIDFromUsername(name));
     }
 
     public MethodBankAccount getBankAccount(String bank, String name) {
@@ -76,12 +75,12 @@ public class ZCoreEco implements Method {
         }
 
         public double balance() {
-            return Economy.INSTANCE.getBalance(uuid);
+            return Economy.getBalance(uuid);
         }
 
         public boolean set(double amount) {
             try {
-                Economy.INSTANCE.setBalance(uuid, amount);
+                Economy.setBalance(uuid, amount);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -91,7 +90,7 @@ public class ZCoreEco implements Method {
 
         public boolean add(double amount) {
             try {
-                Economy.INSTANCE.addBalance(uuid, amount);
+                Economy.addBalance(uuid, amount);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -101,7 +100,7 @@ public class ZCoreEco implements Method {
 
         public boolean subtract(double amount) {
             try {
-                Economy.INSTANCE.subtractBalance(uuid, amount);
+                Economy.subtractBalance(uuid, amount);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -111,7 +110,7 @@ public class ZCoreEco implements Method {
 
         public boolean multiply(double amount) {
             try {
-                Economy.INSTANCE.setBalance(uuid, Economy.INSTANCE.getBalance(uuid) * amount);
+                Economy.setBalance(uuid, Economy.getBalance(uuid) * amount);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -121,7 +120,7 @@ public class ZCoreEco implements Method {
 
         public boolean divide(double amount) {
             try {
-                Economy.INSTANCE.setBalance(uuid, Economy.INSTANCE.getBalance(uuid) / amount);
+                Economy.setBalance(uuid, Economy.getBalance(uuid) / amount);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -131,7 +130,7 @@ public class ZCoreEco implements Method {
 
         public boolean hasEnough(double amount) {
             try {
-                return Economy.INSTANCE.hasEnough(uuid, amount);
+                return Economy.hasEnough(uuid, amount);
             } catch (Throwable e) {
                 e.printStackTrace();
                 return false;
@@ -140,7 +139,7 @@ public class ZCoreEco implements Method {
 
         public boolean hasOver(double amount) {
             try {
-                return Economy.INSTANCE.getBalance(uuid) > amount;
+                return Economy.getBalance(uuid) > amount;
             } catch (Throwable e) {
                 e.printStackTrace();
                 return false;
@@ -149,7 +148,7 @@ public class ZCoreEco implements Method {
 
         public boolean hasUnder(double amount) {
             try {
-                return Economy.INSTANCE.getBalance(uuid) < amount;
+                return Economy.getBalance(uuid) < amount;
             } catch (Throwable e) {
                 e.printStackTrace();
                 return false;
